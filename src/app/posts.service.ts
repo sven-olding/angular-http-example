@@ -13,9 +13,7 @@ export class PostsService {
   constructor(private http: HttpClient) {}
 
   createAndStorePost(postData: Post) {
-    this.http.post(this.FIREBASE_URL, postData).subscribe((responseData) => {
-      console.log(responseData);
-    });
+    return this.http.post(this.FIREBASE_URL, postData);
   }
 
   fetchPosts() {
@@ -30,5 +28,9 @@ export class PostsService {
         return postsArray;
       })
     );
+  }
+
+  deletePosts() {
+    return this.http.delete(this.FIREBASE_URL);
   }
 }

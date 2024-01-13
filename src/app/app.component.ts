@@ -20,8 +20,9 @@ export class AppComponent implements OnInit {
   onCreatePost(postData: Post) {
     // Send Http request
     console.log(postData);
-    this.postsService.createAndStorePost(postData);
-    this.fetchPosts();
+    this.postsService.createAndStorePost(postData).subscribe(() => {
+      this.fetchPosts();
+    });
   }
 
   onFetchPosts() {
@@ -31,9 +32,13 @@ export class AppComponent implements OnInit {
 
   onClearPosts() {
     // Send Http request
+    this.postsService.deletePosts().subscribe(() => {
+      this.loadedPosts = [];
+    });
   }
 
   private fetchPosts() {
+    console.debug('fetchPosts');
     this.isFetching = true;
     this.postsService.fetchPosts().subscribe((posts) => {
       this.isFetching = false;
