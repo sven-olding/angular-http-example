@@ -18,21 +18,27 @@ export class PostsService {
   }
 
   fetchPosts() {
-    return this.http.get<{ [key: string]: Post }>(this.FIREBASE_URL).pipe(
-      map((responseData) => {
-        const postsArray: Post[] = [];
-        for (const key in responseData) {
-          if (responseData.hasOwnProperty(key)) {
-            postsArray.push({ ...responseData[key], id: key });
-          }
-        }
-        return postsArray;
-      }),
-      catchError((errorRes) => {
-        // Send to analytics server
-        return throwError(errorRes);
+    return this.http
+      .get<{ [key: string]: Post }>(this.FIREBASE_URL, {
+        headers: {
+          'Custom-Header': 'Hello',
+        },
       })
-    );
+      .pipe(
+        map((responseData) => {
+          const postsArray: Post[] = [];
+          for (const key in responseData) {
+            if (responseData.hasOwnProperty(key)) {
+              postsArray.push({ ...responseData[key], id: key });
+            }
+          }
+          return postsArray;
+        }),
+        catchError((errorRes) => {
+          // Send to analytics server
+          return throwError(errorRes);
+        })
+      );
   }
 
   deletePosts() {
