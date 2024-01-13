@@ -23,6 +23,9 @@ export class PostsService {
         headers: {
           'Custom-Header': 'Hello',
         },
+        params: {
+          print: 'pretty',
+        },
       })
       .pipe(
         map((responseData) => {
